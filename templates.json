@@ -1,0 +1,54 @@
+[   
+    {
+        "regex": "(.*)\\s*sorry\\s*(.*)",
+        "pos": 0,
+        "rules": [
+                    "Please don't apologise.",
+                    "You should not apologise",
+                    "It did not bother me, please continue.",
+                    "Why are you sorry?",
+                    "It is okay, does it feel better now?"
+                ]
+    },
+
+    {
+        "regex": "(.*)\\s*you\\s(.*)\\sme",
+        "pos": 2,
+        "rules": [
+                    "What makes you think I @TOKEN@ you?",
+                    "You like to think I @TOKEN@ you, don't you?",
+                    "Do you wish to believe I @TOKEN@ you?",
+                    "Suppose I did @TOKEN@ you, what could that mean?",
+                    "Why do you think I @TOKEN@ you?"
+                ]
+    },
+
+    {
+        "regex": "i\\sam\\s(.*)",
+        "pos": 1,
+        "rules": [
+                    "Do you know anyone else who is @TOKEN@?",
+                    "Do you enjoy being @TOKEN@?",
+                    "Did you come to me because you are @TOKEN@?",
+                    "Do you think it is normal to be @TOKEN@?",
+                    "How long have you been @TOKEN@?",
+                    "Can you tell me why you are @TOKEN@?"
+                ]
+
+    },
+
+    {
+        "regex": "(.*)",
+        "pos": 0,
+        "rules": [
+                    "Please continue.",
+                    "Would you care to elaborate?",
+                    "What do you think that means?",
+                    "Can you explain further?",
+                    "That's interesting, tell me more.",
+                    "I don't quite understand.",
+                    "Please tell me more.",
+                    "Please go on."
+                ]
+    }
+]
