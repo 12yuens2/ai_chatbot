@@ -4,22 +4,39 @@ QUIT = ":q"
 RELOAD = ":r"
 
 
+# def main():
+#     print "Enter 'quit' to quit"
+
+#     eliza = Bot("Eliza")
+
+#     input_string = raw_input()
+
+#     while input_string != QUIT:
+#         if input_string == RELOAD:
+#             eliza = Bot("Eliza")
+#             print "Bot reloaded."
+#         else:
+#             response = eliza.get_response(input_string)
+#             print response
+
+#         input_string = raw_input()
+
 def main():
-    print "Enter 'quit' to quit"
+    print("Enter ':q' to quit")
 
-    eliza = Bot("Eliza")
+    markov = Bot("markov", "corpus.data", 0, 3)
 
-    input_string = raw_input()
+    input_string = input();
 
     while input_string != QUIT:
         if input_string == RELOAD:
-            eliza = Bot("Eliza")
-            print "Bot reloaded."
+            markov = Bot("markov", "test.data", 0, 3)
+            print("bot reloaded...")
         else:
-            response = eliza.get_response(input_string)
-            print response
+            response = markov.create_markov(input_string)
+            print(response)
 
-        input_string = raw_input()
+        input_string = input()
 
 
 
