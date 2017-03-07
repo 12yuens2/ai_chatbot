@@ -1,6 +1,5 @@
 import random
 import re
-import math
 import json
 import string
 import metrics

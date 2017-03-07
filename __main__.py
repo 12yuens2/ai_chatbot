@@ -1,8 +1,6 @@
 from bot import Bot
 from chatbot import ChatBot
 
-import math
-
 QUIT = ":q"
 RELOAD = ":r"
 
