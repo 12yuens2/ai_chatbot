@@ -17,6 +17,10 @@ class ChatBot(object):
         with open(file, "r") as f:
             self.load_dbs(json.load(f))
 
+        print(self.response_db)
+        print("\n\n")
+        print(self.markov_db)
+
         # with open(file, "r") as f:
         #     line1 = f.readline().rstrip("\n")
         #     line2 = f.readline().rstrip("\n")
@@ -27,7 +31,6 @@ class ChatBot(object):
         #         line1 = line2
         #         line2 = f.readline().rstrip("\n")
 
-        print(self.db)
 
     def load_dbs(self, corpus):
          for conversation in corpus:
@@ -40,8 +43,23 @@ class ChatBot(object):
         words = line.split()
         if len(words) < self.MARKOV_LENGTH:
             return
-            
-        for words in line.split():
+
+        #create tri-grams from line
+
+
+        ngrams = []
+        ngrams.extend(zip(*[words[i:] for i in range(self.MARKOV_LENGTH)]))
+
+        print(ngrams)
+        print("\n\n")
+
+        for ngram in ngrams:
+            key = tuple(ngram[:-1])
+
+            if key in self.markov_db:
+                self.markov_db[key].append(ngram[-1])
+            else:
+                self.markov_db[key] = [ngram[-1]]
 
 
 
@@ -78,10 +96,12 @@ class ChatBot(object):
             if possible_reponses != []:
                 response = self.best_response(possible_reponses)
             else:
-                response = "I don't understand..."
+                response = self.get_markov()
 
         return response
 
+    def get_markov(self):
+        return "I don't know..."
 
     def best_response(self, responses):
         response = max(responses)
