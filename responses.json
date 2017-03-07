@@ -1,0 +1,41 @@
+[
+    [
+       "Hello there",
+       "Hey, how are you doing?",
+       "I'm good, what about you?",
+       "I'm good as well",
+       "That's good"
+    ],
+
+    [
+        "Hello",
+        "Hi",
+        "How are you doing?",
+        "I am well thanks",
+        "That's good to hear",
+        "Yes it is",
+        "Can I help you with anything?",
+        "Yes, I have a question",
+        "What is your question?",
+        "Could I borrow a cup of sugar?",
+        "I'm sorry, but I don't have any",
+        "Thank you anyway",
+        "No problem"
+    ],
+
+    [
+        "How are you doing?",
+        "I am doing well, how about you?",
+        "I am also good.",
+        "That's good."
+    ],
+
+    [
+        "Hi",
+        "Hey how is it going?",
+        "Not bad, how about you?",
+        "I had a bad day",
+        "Oh I am sorry to hear that, what happened?"
+    ]
+
+]
