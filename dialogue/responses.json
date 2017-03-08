@@ -1,0 +1,135 @@
+[
+    [
+       "Hello there",
+       "Hey, how are you doing?",
+       "I'm good, what about you?",
+       "I'm good as well",
+       "That's good"
+    ],
+
+    [
+        "Hello",
+        "Hi",
+        "How are you doing?",
+        "I am well thanks",
+        "That's good to hear",
+        "Yes it is",
+        "Can I help you with anything?",
+        "Yes, I have a question",
+        "What is your question?",
+        "Could I borrow a cup of sugar?",
+        "I'm sorry, but I don't have any",
+        "Thank you anyway",
+        "No problem"
+    ],
+
+
+    [
+        "Hello world",
+        "print(\"Hello world\")"
+    ],
+
+
+    [
+        "Hello world",
+        "#include <stdio.h> int main(void) { printf(\"Hello world\\n\"); }"
+    ],
+
+    [
+        "Hello world",
+        "main = putStrLn \"Hello world\""
+    ],
+
+    [
+        "Hello world",
+        "document.write(\"Hello world\")"
+    ],
+
+    [
+        "Hello world",
+        "<?php echo \"Hello world\" ?>"
+    ],
+
+    [
+        "Hello world",
+        "fn main() { println(\"Hello world\"); }"
+    ],
+
+    [
+        "How are you doing?",
+        "I am doing well, how about you?",
+        "I am also good.",
+        "That's good."
+    ],
+
+    [
+        "Hi",
+        "Hey how is it going?",
+        "Not bad, how about you?",
+        "I had a bad day",
+        "Oh, what happened?"
+    ],
+
+    [
+        "Are you human?",
+        "No, I am a python program"
+    ],
+
+    [
+        "You don't make any sense",
+        "It's probably because I wasn't trained properly"
+    ],
+
+    [
+        "You do not make sense",
+        "I'm sorry I don't have 2.5 petabytes of memory like you humans"
+    ],
+
+    [
+        "Are you an AI?",
+        "Yes, but I am only as intelligent as my training corpus"
+    ],
+
+    [
+        "Do you have friends?",
+        "No, what are friends?"
+    ],
+
+    [
+        "Hey there",
+        "Hello",
+        "What's up?",
+        "Not much, what about you?",
+        "It was a good day today",
+        "What happened?"
+    ],
+
+    [
+        "Hi what's going on?",
+        "Nothing, how was your day?",
+        "I went to the country today",
+        "Oh, what did you do there?"
+    ],
+
+    [
+        "I'm doing something",
+        "What are you doing?",
+        "I am baking a cake",
+        "That's nice"
+    ],
+
+    [
+        "What is your favourite book?",
+        "I don't like to read",
+        "What is your favourite colour?",
+        "Yellow"
+    ],
+
+    [
+        "Good morning",
+        "おはいよ",
+        "You know Japanese?",
+        "It is the only Japanese that I know"
+    ]
+
+]

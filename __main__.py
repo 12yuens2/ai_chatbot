@@ -10,9 +10,9 @@ RELOAD = ":r"
 def main():
     print("Enter 'quit' to quit")
 
-    eliza = ChatBot("responses.json")
+    eliza = ChatBot("./dialogue")
 
-    input_string = input()
+    input_string = input("[User input]: ")
 
     while input_string != QUIT:
         if input_string == RELOAD:
@@ -22,7 +22,8 @@ def main():
             response = eliza.get_response(input_string)
             print(response)
 
-        input_string = input()
+        input_string = input("[User input]: ")
+
 
 # def main():
 #     print("Enter ':q' to quit")

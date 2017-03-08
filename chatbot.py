@@ -1,5 +1,6 @@
 import random
 import re
+import os
 import json
 import string
 import metrics
@@ -7,19 +8,21 @@ import metrics
 class ChatBot(object):
 
     MAX_LEV_DISTANCE = 5
-    MIN_COS_SIMILARITY = 0.75
+    MIN_COS_SIMILARITY = 0.85
     MARKOV_LENGTH = 3
 
-    def __init__(self, file):
+    def __init__(self, training_dir):
         self.response_db = {}
         self.markov_db = {}
 
-        with open(file, "r") as f:
-            self.load_dbs(json.load(f))
+        for file in os.listdir(training_dir):
+            with open(os.path.join(training_dir, file), "r") as f:
+                print(file)
+                self.load_dbs(json.load(f))
 
-        print(self.response_db)
-        print("\n\n")
-        print(self.markov_db)
+        # print(self.response_db)
+        # print("\n\n")
+        # print(self.markov_db)
 
         self.reflections = {
             "am": "are",
@@ -92,7 +95,8 @@ class ChatBot(object):
         # First try to find a response from the db
         try:
             response = random.choice(self.response_db[input_string])
-            del self.response_db[input_string]
+            print("[Found response]: ", end="")
+            # del self.response_db[input_string]
 
         # Next try to find inputs that are similar using metrics
         except KeyError:
@@ -112,21 +116,22 @@ class ChatBot(object):
 
             # Use the best response found which had similar input
             if possible_reponses != []:
+                print("[Distance response]: ", end="")
                 response = self.best_response(possible_reponses)
             
             # If no close reponses were found, just use markov chains.
             else:
+                print("[Markov response]: ", end="")
                 response = self.get_markov(input_string)
 
         return response
 
     def get_markov(self, input_string):
-        print("Markov response:")
         key = self.find_keyword(input_string)
 
         word = ""
         message = []
-        while word != "\n":
+        while len(message) < 2 or word != "\n":
             try:
                 entry = self.markov_db[tuple(key)]
                 word = random.choice(entry)
@@ -167,7 +172,7 @@ class ChatBot(object):
 
 
     def best_response(self, responses):
-        response = max(responses)
-        del self.response_db[response[2]]
+        response = random.choice(responses)
+        # del self.response_db[response[2]]
         
         return response[1][0]
