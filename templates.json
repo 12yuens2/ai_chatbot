@@ -38,6 +38,17 @@
     },
 
     {
+        "regex": "can\\syou\\s(.*)",
+        "pos": 1,
+        "rules": [
+                    "No I cannot @TOKEN@",
+                    "I don't think I can",
+                    "I could try, but I doubt I can",
+                    "What about you? Can you @TOKEN@?"
+                ]
+    },
+
+    {
         "regex": "(.*)",
         "pos": 0,
         "rules": [

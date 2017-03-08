@@ -1,6 +1,8 @@
 from bot import Bot
 from chatbot import ChatBot
 
+import metrics
+
 QUIT = ":q"
 RELOAD = ":r"
 
