@@ -4,6 +4,7 @@ import os
 import json
 import string
 import metrics
+import bayes
 
 class ChatBot(object):
 
@@ -11,14 +12,20 @@ class ChatBot(object):
     MIN_COS_SIMILARITY = 0.85
     MARKOV_LENGTH = 3
 
-    def __init__(self, training_dir):
+    def __init__(self, training_files, category_dir):
         self.response_db = {}
         self.markov_db = {}
 
-        for file in os.listdir(training_dir):
-            with open(os.path.join(training_dir, file), "r") as f:
-                print(file)
+        # Get dictionary for categorisation
+        self.bayes_db = bayes.get_dictionary([x[0] for x in os.walk(category_dir)][1:])
+
+    
+        for file in training_files:
+            with open(file, "r") as f:
+                print("Loaded training file: " + file)
                 self.load_dbs(json.load(f))
+
+
 
         # print(self.response_db)
         # print("\n\n")
@@ -40,8 +47,13 @@ class ChatBot(object):
             "me": "you"
         }
 
+        print("Loaded.")
+
+
     def load_dbs(self, corpus):
          for conversation in corpus:
+            category = bayes.get_category(self.bayes_db, " ".join(conversation))
+
             for i in range(1, len(conversation)):
                 self.add_to_responses(conversation[i-1], conversation[i])
                 self.add_to_markov(conversation[i])

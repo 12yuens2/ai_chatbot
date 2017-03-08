@@ -8,10 +8,10 @@ RELOAD = ":r"
 
 
 def main():
+
+    eliza = ChatBot(["dialogue/overheard.json", "dialogue/responses.json"], "categories")
+    
     print("Enter 'quit' to quit")
-
-    eliza = ChatBot("./dialogue")
-
     input_string = input("[User input]: ")
 
     while input_string != QUIT:

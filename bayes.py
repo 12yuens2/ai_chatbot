@@ -11,7 +11,7 @@ with open("stopwords.txt", "r") as s:
         stop_words.append(line.strip())
 
 
-def get_bayes_dictionary(directory):
+def get_dictionary(directory):
     counter_dict = {}
 
     for subdir in directory:
@@ -36,27 +36,32 @@ def get_probabilities(dict, string):
     prob_dict = {}
 
     # Calculate probability of being in each category
-    for category in counter_dict:
+    for category in dict:
         prob = 0.0
-        counter = counter_dict[category]
+        counter = dict[category]
 
-        for word in test.split():
-            prob += ((counter[word] + 1) / (sum(counter.values()) + len(test)))
+        for word in string.split():
+            prob += ((counter[word] + 1) / (sum(counter.values()) + len(string)))
 
         prob_dict[category] = prob
 
     return prob_dict
+
+def get_category(dict, string):
+    probabilities = get_probabilities(dict, string)
+    
+    return max(probabilities, key=probabilities.get)
         
-print("Done parsing")
+# print("Done parsing")
 
 
-test = "The batting team attempts to score runs by hitting a ball that is thrown by the pitcher with a bat swung by the batter, then running counter-clockwise around a series of four bases: first, second, third, and home plate. A run is scored when a player advances around the bases and returns to home plate."
+# test = "The batting team attempts to score runs by hitting a ball that is thrown by the pitcher with a bat swung by the batter, then running counter-clockwise around a series of four bases: first, second, third, and home plate. A run is scored when a player advances around the bases and returns to home plate."
 
-counter_dict = get_bayes_dictionary(categories)
+# counter_dict = get_dictionary(categories)
 
-probabilities = get_probabilities(counter_dict, test)
+# probabilities = get_probabilities(counter_dict, test)
 
-print(max(probabilities, key=probabilities.get))
+# print(max(probabilities, key=probabilities.get))
 
 
 
