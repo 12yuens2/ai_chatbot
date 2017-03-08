@@ -1,3 +1,6 @@
+import math
+
+
 def get_jaccard(string1, string2):
     s1 = set(string1.split())
     s2 = set(string2.split())
