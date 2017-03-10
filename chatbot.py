@@ -12,24 +12,22 @@ class ChatBot(object):
     MIN_COS_SIMILARITY = 0.85
     MARKOV_LENGTH = 3
 
-    def __init__(self, training_files, category_dir):
+    def __init__(self, training_files, category_dir, eliza_file="templates.json"):
         self.response_db = {}
         self.markov_db = {}
 
         # Get dictionary for categorisation
-        self.bayes_db = bayes.get_dictionary([x[0] for x in os.walk(category_dir)][1:])
-
+        # self.bayes_db = bayes.get_dictionary([x[0] for x in os.walk(category_dir)][1:])
     
+        # Load training files for Markov model and retrieval database
         for file in training_files:
             with open(file, "r") as f:
                 print("Loaded training file: " + file)
                 self.load_dbs(json.load(f))
 
-
-
-        # print(self.response_db)
-        # print("\n\n")
-        # print(self.markov_db)
+        # Load templates for ELIZA responses
+        with open(eliza_file) as templates:
+            self.templates = json.load(templates)
 
         self.reflections = {
             "am": "are",
@@ -52,7 +50,7 @@ class ChatBot(object):
 
     def load_dbs(self, corpus):
          for conversation in corpus:
-            category = bayes.get_category(self.bayes_db, " ".join(conversation))
+            # category = bayes.get_category(self.bayes_db, " ".join(conversation))
 
             for i in range(1, len(conversation)):
                 self.add_to_responses(conversation[i-1], conversation[i])
@@ -88,11 +86,12 @@ class ChatBot(object):
 
 
     def add_to_responses(self, line1, line2):
-        if not line1 and not line2:
+        if not line1 or not line2:
             return
 
         line1 = line1.lower()
 
+        # Add line1 as key (input) and line2 as value (response)
         if line1 in self.response_db:
             self.response_db[line1].append(line2)
         else:
@@ -143,7 +142,7 @@ class ChatBot(object):
 
         word = ""
         message = []
-        while len(message) < 2 or word != "\n":
+        while len(message) < 10 or word != "\n":
             try:
                 entry = self.markov_db[tuple(key)]
                 word = random.choice(entry)

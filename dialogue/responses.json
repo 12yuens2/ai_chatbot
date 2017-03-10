@@ -4,7 +4,9 @@
        "Hey, how are you doing?",
        "I'm good, what about you?",
        "I'm good as well",
-       "That's good"
+       "That's good",
+       "Goodbye",
+       "Bye!"
     ],
 
     [
@@ -130,6 +132,15 @@
         "おはいよ",
         "You know Japanese?",
         "It is the only Japanese that I know"
+    ],
+
+    [
+        "Happy Birthday!",
+        "Thank you!",
+        "How have you been?",
+        "Been good, pretty busy. What about you?",
+        "Pretty busy as well"
+
     ]
 
 ]

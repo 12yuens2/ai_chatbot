@@ -7,7 +7,7 @@ def get_jaccard(string1, string2):
 
     n = len(s1.intersection(s2))
     return n / float(len(s1) + len(s2) - n)
-
+    
 
 # Algorithm for calculating the Levenshtein distance between two strings.
 # Written following the algorithm from "Iterative with two matrix rows" from https://en.wikipedia.org/wiki/Levenshtein_distance
@@ -39,7 +39,7 @@ def get_lev(s, t):
 def get_cosim(string1, string2):
     v1, v2 = create_vectors(string1, string2)
 
-    dot_product = sum([v1[x] * v2[x] for x in range(len(v1))])
+    dot_product = sum([v1[i] * v2[i] for i in range(len(v1))])
 
     mv1 = get_magnitude(v1)
     mv2 = get_magnitude(v2)
@@ -52,7 +52,7 @@ def get_cosim(string1, string2):
 
 
 def get_magnitude(vector):
-    return math.sqrt(sum([vector[x] ** 2 for x in range(len(vector))]))
+    return math.sqrt(sum([vector[i] ** 2 for i in range(len(vector))]))
 
 def create_vectors(string1, string2):
     ws1 = string1.split()
