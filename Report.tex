@@ -24,11 +24,33 @@
 \section{Introduction}
 In this practical we were asked to create an AI chatbot that is able to have a text conversation with a human and from this reflect on the Turing test as a means to determine artificial intelligence.
 \n
-I have designed my chatbot using a variety of techniques and compared how well each technique conducts conversations to find the strengths and weaknesses of each approach.
+I have designed my chatbot using a variety of techniques and compared individually how well each technique conducts conversations to find the strengths and weaknesses of each approach. Finally, I put all these techniques together in my submission to maximise their strengths and minimise their weaknesses.
 \section{Design and techniques}
-For my chatbot, I chose not to create a closed domain bot that produces good conversation only for specific topics or inputs and instead I explore many different techniques used to create chatbots to compare them. For each technique, I implement it myself without libraries. By implementing each algorithm from the ground up, I am able to better understand what happens under the hood and evaluate how well they perform.
+For my chatbot, I chose not to create a closed domain bot that produces good conversation only for specific topics or inputs and instead I explore many different techniques used to create chatbots to compare them.nk For each technique, I implement it myself without libraries. By implementing each algorithm from the ground up, I am able to better understand what happens under the hood and evaluate how well they perform.
 \subsection{ELIZA}
-The first technique I used for making the chatbot was the \texttt{ELIZA} string replacement method as detailed in \cite{eliza}. By pattern matching with regular expressions and giving hard coded responses based on the given template, the bot will respond by reflecting the user input, or telling the user to continue and say more. These responses make the most sense if the character of the bot is well defined. In the example of the \texttt{ELIZA} bot, its character of being a Rogerian therapist made its responses sensible. The responses are also guaranteed to be grammatically correct because they are hard coded by humans and not generated. 
+The first technique I used for making the chatbot was the \texttt{ELIZA} string replacement method as detailed in \cite{eliza}. By pattern matching with regular expressions and giving hard coded responses based on the given template, the bot will respond by reflecting the user input, or telling the user to continue and say more. These responses make the most sense if the character of the bot is well defined. In the example of the \texttt{ELIZA} bot, its character of being a Rogerian therapist made its responses sensible. The responses are also guaranteed to be grammatically correct because they are hard coded by humans and not generated.  
+\n
+I won't go into detail about how \texttt{ELIZA} works here as it detailed in \cite{eliza} and I followed much of the paper in my implementation. The script of regex rules and responses are in \texttt{JSON} format so my bot can read in any templates in that format and return the pre-defined responses to matched inputs. Which response being returned is randomly chosen. I did not go into detail to make a good ELIZA bot because I wanted to explore other techniques. My version of \texttt{ELIZA} only implements a few of the basic rules templates from Weizenbuam's paper, enough for a short conversation.
+\subsubsection{Strengths}
+As all the responses are coded by hand by people, it will always make both grammatically correct answers (provided the templates are grammatically correct) and answers that relate directly to the user input. If all the rules and responses are written with a coherent personality that reflects the context the bot is in (i.e. the Rogerian therapist of the original \texttt{ELIZA}) then it can be quite convincing.
+\n
+\textbf{User}: Hello
+\\ \textbf{Bot}: Hello, what is your problem?
+\\ \textbf{User}: I am sad
+\\ \textbf{Bot}: Can you tell me why you are sad?
+\\ \textbf{User}: I dreamed by father died
+\\ \textbf{Bot}: What does that dream suggest to you?
+\\ \textbf{User}: I am afraid of what might happen
+\\ \textbf{Bot}: Did you come to me because you are afraid of what might happen?
+\\ \textbf{User}: Yes
+\\ \textbf{Bot}: Ah, I understand
+\n
+The conversation is quite good as the rules make sure each response make sense. Obviously this would not work when the user input does not match a rule, but more rules can be written for each case and a very comprehensive \texttt{ELIZA} template would produce a better result that the other techniques I try in this practical. 
+
+\subsubsection{Weaknesses}
+Despite its strengths, I found \texttt{ELIZA} quite limiting in needing to have all the rules strictly defined for anything the user could possibly say. It is not a very scalable approach because as more rules are added, the selection of which rule to use becomes more complicated especially given the complexity of languages. New templates also have to be written for different languages or to change the personality of the bot.
+\n
+Most crucially (but not so much a weakness) is that \texttt{ELIZA} has no intelligence as it is solely based on pattern matching with pre-defined responses. As will be discussed in section \ref{turing}, this approach is most effective for passing the Turing test but the least in terms of machine intelligence.
 \subsection{Markov chains} \label{markov}
 In this approach, I used a Markov chain to generate a string of words. Tri-grams have the best outcome for generating text over uni-grams and bi-grams according to both \cite{cheating} and \cite{norvig}. Here are some results from my own Markov model on different n-gram lengths trained on \texttt{overheard.txt} from the \texttt{nltk} corpus:
 \n
@@ -71,9 +93,24 @@ In the example shown in Figure \ref{markov-eg1}, the graph is created by trainin
 \n
 Obviously the strings created are not close to being good responses in a conversation, but this is a good starting point for being able to generate responses without the need to hard code each response. The training data used for this model is very important to the results. For example, training it on the Ubuntu Chat Corpus causes the model to generate strings about installing libraries and programs on Linux. Similarly, training the model on text like Shakespeare's plays will make it respond in Shakespearean English. To continue building on this model, I follow the approach taken by Hutchens \cite{cheating} in his paper, using keywords from user input as a seed to choose a state to start in and also reflecting keywords like \textit{I} and \textit{you}.
 \subsubsection{Strengths}
-The text is purely generated and are not hard coded responses. 
+The text is purely generated and are not hard coded responses. This makes the responses more dynamic and fluid like a real conversation where responses are not repeated in a static way. By reflecting the user input and choosing keywords, the flow of the conversation is kept. However, I have not been able to get successful, good responses from a pure Markov chain bot. There may be occasional one or two lines that made sense, but it mostly from luck as the same output was hard to get again due to the size and randomness of the \texttt{overheard.txt} corpus.
 \subsubsection{Weaknesses}
-Much of what comes out of the Markov chain does not make sense. With tri-grams it does at least have some grammar, but often it is still not very good. There is the issue that if the chain stops too early (say below a minimum length for the response), then it has to get the next state by random. This further makes the response more incomprehensible and without a very large dataset, it is difficult to guarantee this doesn't happen often. A larger corpus will improve the performance as it will be less likely to have to jump to another state by random and the probability distribution of each transition will be better defined. 
+Much of what comes out of the Markov chain does not make sense. With tri-grams it does at least have some grammar, but often it is still not very good. There is the issue that if the chain stops too early because there were no more transitions but the length of the message is still too short, then it has to get the next state by random. This further makes the response more incomprehensible and without a very large dataset, it is difficult to guarantee this doesn't happen often. A larger corpus will improve the performance as it will be less likely to have to jump to another state by random and the probability distribution of each transition will be better defined.
+\n
+The choice of keywords and preprocessing of user input if also very important as it determines which state the Markov chain starts in. The issue with doing a bi-gram as the key is if the user gives a short input, it would be unlikely to find an initial state and have to resort to a random state. Also because the key into the starting state comes from the user input, even if the sentences are correct, they may not make sense. 
+\n
+Take this sample dialogue trained on \texttt{overheard.txt}:
+\n
+\textbf{User}: Hello
+\\ \textbf{Bot}: sandwich word... husband,
+\\ \textbf{User}: Hey how are you?
+\\ \textbf{Bot}: I supposed to know the stuff I did too.
+\\ \textbf{User}: What do you mean?
+\\ \textbf{Bot}: you say it was dark and I got the college brochures.
+\\ \textbf{User}: Thanks for that
+\\ \textbf{Bot}: plastic piece of toilet paper, and I are thinking of you.
+\n
+The responses generated are decently correct grammatically except for the first response due to being only one word, meaning the Markov chain started in a random state. The issues can be clear for example from the last line. Because \textit{Thanks for that} has no words to reflect, it is used directly to find the next state, so putting the two sentences together, \textit{Thanks for that plastic piece of toilet paper...} makes more sense, but this isn't good as a response.
 \subsection{Retrieval based with sentence similarity metrics} \label{retrieval}
 The idea behind the retrieval based technique is a very simple one. Given a corpus of conversations, map each message with its response. Then when given user input, simply match the input with all mapped messages and return the response if a match was found. The obvious issue with is approach is how to match the user input to mapped messages. It is unlikely a user enters string similar to one we have stored, let alone enter a string that matches exactly. So to improve this method, I try different string distance metrics. As an \textbf{Edit-distance} function, I used the \textit{Levenshtein distance} and as a \textbf{Token-based} function, I used the \textit{Cosine similarity}.
 \subsubsection{Cosine Similarity}
@@ -110,9 +147,21 @@ However, I found that this measure can still be useful for typos. Misspelling or
 \\ \textbf{Bot}: Bye!
 
 \subsubsection{Strengths}
-The strength of this approach contrasts with the Markov approach from Section \ref{markov}. Where the Markov approach completely generated the response, only relying on chaining n-grams, this approach returns proper structured responses.
+The strength of this approach contrasts with the Markov approach from Section \ref{markov}. Where the Markov approach completely generated the response, only relying on chaining n-grams, this approach returns proper structured responses. Take this sample dialogue:
 \n
-Given a good conversation corpus, perhaps an entire log of a single person's messages for many years (to give the bot responses that would be more related than taking many random conversations from different people) the dialogue from this technique would give a more natural conversation compared to that of \texttt{ELIZA} as it does not have the same pre-defined responses in a static pattern because it is ``trained" on real conversations. To make it more realistic, responses could be deleted from memory once they have been used to ensure the bot never responded in the same way. All responses would eventually be wiped, but if the corpus is large enough, it is unlikely a user can exhaust the whole database of responses in a sitting.
+\textbf{User}: Hey hows it going?
+\\ \textbf{Bot}: Not bad, how about you?
+\\ \textbf{User}: im good
+\\ \textbf{Bot}: Oh, shut up. What if you were homeless, then what would you do?
+\\ \textbf{User}: i don't know
+\\ \textbf{Bot}: Shh! You might offend the girl with the iPod.
+\\ \textbf{User}: oh sorry
+\\ \textbf{Bot}: Oh, you must think you're special. Guess what? You're not.
+\n
+Given a good conversation corpus, perhaps an entire log of a single person's messages for many years (to give the bot responses that would be more related than taking many random conversations from different people) the dialogue from this technique would give a more natural conversation compared to that of \texttt{ELIZA} as it does not have the same pre-defined responses in a static pattern because it is ``trained" on real conversations. To make it more realistic, responses could be deleted from memory once they have been used to ensure the bot never responded in the same way. All responses would eventually be wiped, but if the corpus is large enough, it is unlikely a user can exhaust the whole database of responses in a sitting. Consistency within the training corpus is quite important so that the responses are not too random (for example giving different ages or names when asked). Overall this technique is very reliant on the corpus used to train it and must be further refined by doing some pre-process work on the corpus and not just use edit and token distances, but semantic distances too. I did not explore the techniques for semantic similarity between sentences, but I believe this can be achieved with techniques such as stemming of words (removing prefixes and affixes) and having a dictionary/thesaurus for words with the same meaning.
+\n
+This technique can also learn from itself, putting its response and a user's response back into its database as a new entry.
+
 \subsubsection{Weaknesses}
 There are two jarring problems with this technique:
 \begin{enumerate}
@@ -139,13 +188,21 @@ The response from the bot here doesn't make sense because it simply fetched a re
 \subsection{Naive Bayes classifier}
 To improve on the retrieval based technique described earlier, I wanted to use a technique that could address the lack of context by making sure the bot will pick responses with the right context or on the same topic. Chapter 6 of the Python book on natural language processing \cite{nltk} gives many examples and techniques on classifying text. I wanted the technique to involve some form of ``training" like the previous techniques I've implemented using a corpus. \textbf{Naive Bayes classification} fit what I was looking for and was simple to implement.
 \n
+I follow a basic naive Bayes algorithm of getting a frequency count of all the words in a category, then using the built up database to calculate the probability of words being in that category by taking the frequency of the word over the size of the database. Then when a new sentence is found, the probability of that sentence being in a category is the sum of the probabilities of each word in that sentence being in the category. 
 
-\section{Turing test}
-From creating my chatbot and implementing and testing many different techniques, I didn't arrive at more of an understanding of the Turing test because I did not focus on trying to ``cheat" or pass the test. However, I have learned from my techniques how difficult it is to get the bot to truly learn or understand and how even a sophisticated chatbot that passes the Turing test can still be far from general intelligence.
+\section{Putting it all together}
+Using all the techniques I have implemented and tried, I put them together for my final implementation of my chatbot. 
+\section{The Turing test} \label{turing}
+I believe the Turing test is not an adeqaute test for machine intelligence. As Hutchens \cite{cheating} explains, it encourages deception instead of trying to build machines with true understanding and simple rules such as ones from \texttt{ELIZA} are more effective at passing the test than complicated techniques which try to learn or simulate human intelligence.  
 \n
-
+Other techniques that I read about but did not implement such as stemming words or tagging words still have similar approaches to what I've done, requiring a large list/corpus of data to tag words (nouns, verbs...) or following rules to stem words.
+\n
+To pass the Turing Test, it can be quite straightforward to write comprehensive \texttt{ELIZA} rules to give good responses but this seems far from concepts of strong AI which should \textit{understand} natural language. From creating my chatbot and implementing and testing many different techniques, I have learned how difficult it is to get the bot to learn or understand natural language. The approach of using large corpora of data for the bot to learn language is a good conceptually as it learns grammar and vocabulary somewhat similar to how humans would, just from being told what it is and from experience. However, as I have shown from using Markov chains and to a lesser extent the retrieval based approach with classification, these techniques are much harder to build and perform well, showing how complex an ability like learning is.
+\n
+These chatbot techniques of learning from large corpora apply to most of machine learning where the machine is trained on past data to be able to deal with new data. This is analogous to Cook's theorem in computational complexity where if there exists an algorithm for solving boolean satisfiability (an NP-complete problem), then there exists an algorithm to solve \textit{any} NP problem. Here, a method of solving an ``AI-complete" problem of natural language understanding would result in a method for solving \textit{any} AI problem
 \section{Conclusion}
-In conclusion, 
+In conclusion, I have implemented a few different techniques for creating a chatbot and evaluated the strengths and weaknesses of each approach. 
+
 \printbibliography
 
 

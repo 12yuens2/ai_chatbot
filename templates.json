@@ -1,13 +1,24 @@
 [   
     {
-        "regex": "(.*)\\s*sorry\\s*(.*)",
+        "regex": "i\\sdreamed\\s(.*)",
+        "pos": 1,
+        "rules": [
+                    "Really, @TOKEN@?",
+                    "Have you ever dreamed about @TOKEN@ before?",
+                    "What does that dream suggest to you?",
+                    "Do you dream this often?",
+                    "Do you think about this dream often when you are awake?"
+                ]
+    },
+
+    {
+        "regex": "(.*)perhaps(.*)",
         "pos": 0,
         "rules": [
-                    "Please don't apologise.",
-                    "You should not apologise",
-                    "It did not bother me, please continue.",
-                    "Why are you sorry?",
-                    "It is okay, does it feel better now?"
+                    "You don't seem quite certain",
+                    "You're not sure?",
+                    "Are you not sure?",
+                    "Why the uncertain tone?"
                 ]
     },
 
@@ -45,6 +56,47 @@
                     "I don't think I can",
                     "I could try, but I doubt I can",
                     "What about you? Can you @TOKEN@?"
+                ]
+    },
+
+    {
+        "regex": "(.*)\\s*sorry\\s*(.*)",
+        "pos": 0,
+        "rules": [
+                    "Please don't apologise.",
+                    "You should not apologise",
+                    "It did not bother me, please continue.",
+                    "Why are you sorry?",
+                    "It is okay, does it feel better now?"
+                ]
+    },
+
+    {
+        "regex": "yes",
+        "pos": 0,
+        "rules": [
+                    "You seem quite positive",
+                    "I see.",
+                    "Ah, I understand"
+                ]
+    },
+
+    {
+        "regex": "no",
+        "pos": 0,
+        "rules": [
+                    "Why are you so negative?",
+                    "Why not?",
+                    "Ah, I understand"
+                ]
+    },
+
+    {
+        "regex": "hello|hi",
+        "pos": 0,
+        "rules": [
+                    "Hi, please tell me your problem",
+                    "Hello, what is your problem?"
                 ]
     },
 
